@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:13.3-alpine
+    environment:
+      POSTGRES_DB: "august"
+      POSTGRES_PASSWORD: "f123"
+    ports:
+      - 5432:5432
+    volumes:
+      - c:/fcamara/docker/share/pg/13/data:/var/lib/postgresql/data
+    networks:
+      - fcamara
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "contato@fcamara.com.br"
+      PGADMIN_DEFAULT_PASSWORD: "f123"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+    networks:
+      - fcamara
+
+networks:
+  fcamara:
+    driver: bridge
